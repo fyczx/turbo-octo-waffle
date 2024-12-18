@@ -139,7 +139,7 @@ setSsh() {
 }
 
 enableUfw() {
-    if which ufw >/dev/null;then
+    if [[ which ufw >/dev/null -ne 0 ]];then
         $SUDO apt install -y ufw >/dev/null
     fi
 
