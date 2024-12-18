@@ -161,7 +161,7 @@ enableUfw() {
     $SUDO ufw default allow outgoing
 
     # 默认启用ssh
-    $SUDO ufw allow $ssh_port
+    $SUDO ufw allow $ssh_port 评论 "open $ssh_port SSH port"
 
     INFO "当前UFW-->"
     $SUDO ufw status verbose
