@@ -79,32 +79,32 @@ _install_key() {
 _enableSecuritySettings() {
     INFO "启用一些SSH安全设置..."
 
-    $SUDO sed -i "s|.*\(Port \).*|\1${ssh_port}|" /etc/ssh/sshd_config && {
+    $SUDO sed -i "s|^[ #]*\(Port \).*|\1${ssh_port}|" /etc/ssh/sshd_config && {
         INFO "√ 配置:SSH端口${ssh_port}"
     } || {
         EROR "SSH端口:${ssh_port} 修改失败！"
         return 1
     }
-    $SUDO sed -i "s|.*\(PermitRootLogin \).*|\1prohibit-password|" /etc/ssh/sshd_config && {
+    $SUDO sed -i "s|^[ #]*\(PermitRootLogin \).*|\1prohibit-password|" /etc/ssh/sshd_config && {
         INFO "√ 配置:root用户只允许密钥登录,普通用于可以密码登录"
     } || {
         EROR "root用户只允许密钥登录普通用于可以密码登录 配置失败！"
         return 1
     }
-    $SUDO sed -i "s|.*\(PasswordAuthentication \).*|\1no|" /etc/ssh/sshd_config && {
+    $SUDO sed -i "s|^[ #]*\(PasswordAuthentication \).*|\1no|" /etc/ssh/sshd_config && {
         INFO "√ 配置:禁用所有用户的密码登录，包括普通用户"
     } || {
         EROR "禁用所有用户的密码登录，包括普通用户 配置失败！"
         return 1
     }
-    $SUDO sed -i "s|.*\(MaxAuthTries \).*|\1 3|" /etc/ssh/sshd_config && {
+    $SUDO sed -i "s|^[ #]*\(MaxAuthTries \).*|\1 3|" /etc/ssh/sshd_config && {
         INFO "√ 配置:限制每个连接尝试的最大认证次数为 3 次"
     } || {
         EROR "限制每个连接尝试的最大认证次数为 3 次 配置失败！"
         return 1
     }
-    $SUDO sed -i "s|.*\(ClientAliveInterval \).*|\1 300|" /etc/ssh/sshd_config && \
-        $SUDO sed -i "s|.*\(ClientAliveCountMax \).*|\1 3|" /etc/ssh/sshd_config && {
+    $SUDO sed -i "s|^[ #]*\(ClientAliveInterval \).*|\1 300|" /etc/ssh/sshd_config && \
+        $SUDO sed -i "s|^[ #]*\(ClientAliveCountMax \).*|\1 3|" /etc/ssh/sshd_config && {
             INFO "√ 配置:每5分钟一次心跳包, 3次失败就断开"
         } || {
             EROR "每5分钟一次心跳包, 3次失败就断开 配置失败"
