@@ -91,6 +91,12 @@ _enableSecuritySettings() {
         EROR "root用户只允许密钥登录普通用于可以密码登录 配置失败！"
         return 1
     }
+    $SUDO sed -i "s|^[ #]*\(PubkeyAuthentication \).*|\1yes|" /etc/ssh/sshd_config && {
+        INFO "√ 配置:启用公钥认证"
+    } || {
+        EROR "启用公钥认证 配置失败！"
+        return 1
+    }
     $SUDO sed -i "s|^[ #]*\(PasswordAuthentication \).*|\1no|" /etc/ssh/sshd_config && {
         INFO "√ 配置:禁用所有用户的密码登录，包括普通用户"
     } || {
